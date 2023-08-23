@@ -1,0 +1,74 @@
+.navbar-table {
+  background-color: white;
+  color: #00a136;
+  padding: 10px;
+}
+
+.navbar-table table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.nav-buttons {
+  text-align: left;
+  vertical-align: middle;
+}
+
+.nav-buttons ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-buttons li {
+  display: inline-block;
+  margin-right: 5%;
+}
+
+.nav-buttons a {
+  text-decoration: none;
+  color: #00a136;
+}
+
+.logo-cell {
+  text-align: right;
+  vertical-align: middle;
+}
+
+.logo-cell img {
+  width: 100px; /* Adjust the image size */
+  height: auto;
+}
+
+.menu-toggle {
+  display: none; /* Hide by default */
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .nav-buttons ul {
+    display: none; /* Hide the buttons on small screens */
+
+  }
+
+  .menu-toggle {
+    display: block; /* Display the hamburger icon */
+  }
+
+  .menu.open {
+    display: grid; /* Show the mobile menu when open */
+  }
+
+  /* ...other existing styles... */
+}
+
+/* Style the options in hamburger menu */
+.active {
+  width: 100%;
+  padding-top: 2%;
+}
+
+.active-top {
+  width: 100%;
+  padding-top: 5%;
+}
