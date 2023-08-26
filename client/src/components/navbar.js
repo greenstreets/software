@@ -27,7 +27,7 @@ const Navbar = () => {
                     className={`menu-toggle ${isMenuOpen ? "open" : ""}`}
                     onClick={toggleMenu}
                   >
-                    <a class="icon">&#9776;</a>
+                    <a className="icon">&#9776;</a>
                   </div>
                   <ul className={`menu ${isMenuOpen ? "open" : ""}`}>
                     <li className={isMenuOpen ? "active-top" : ""}>
