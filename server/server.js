@@ -16,7 +16,6 @@ app.get("/about", (req, res) => {
   res.send("This is the About page.");
 });
 
-
 // Define markers route
 app.get("/api/markers", (req, res) => {
   console.log("Getting marker positions ");
@@ -38,10 +37,6 @@ app.get("/api/markers", (req, res) => {
 
   res.json(markers);
 });
-
-
-
-
 
 // Start the server
 app.listen(port, () => {
