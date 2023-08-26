@@ -12,7 +12,10 @@ const customIcon = new Icon({
 });
 
 const LeafletMap = () => {
+  // State to track marker data
   const [data, setData] = useState([]);
+  // State to track the visibility of popups
+  const [popupVisible, setPopupVisible] = useState(true);
 
   useEffect(() => {
     // Fetch data from the backend when the component mounts
@@ -23,11 +26,17 @@ const LeafletMap = () => {
   }, []);
 
   //TO DO SOLVE WHY PAGES ARE HITTING BACKEND MULTIPLE TIMES- POTENTIALLY AS A RESULT OF NOT HAIVING "PREVENT DEFAULT"
-//   if (data.length == 0) {
-//     console.log("DATA DEAD");
-//   }
+  //   if (data.length == 0) {
+  //     console.log("DATA DEAD");
+  //   }
 
   const position = [-27.470125, 153.021072]; // Latitude and longitude
+
+  // Function to toggle the visibility of the popup
+  const handleMarkerClick = () => {
+    // Your custom logic when the marker is clicked
+    console.log("Marker clicked!");
+  };
 
   return (
     <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
@@ -37,9 +46,17 @@ const LeafletMap = () => {
       />
       {/* Mapping through the markers */}
       {data.map((marker) => (
-        <Marker position={marker.geocode} icon={customIcon}>
-          <Popup>some text</Popup>
-        </Marker>
+        <Marker
+          position={marker.geocode}
+          icon={customIcon}
+          eventHandlers={{
+            click: (e) => {
+              const clickedMarkerToRemove = e.target;
+              clickedMarkerToRemove.removeFrom(clickedMarkerToRemove._map);
+              //TO DO REMOVE THE DATA FROM THE DATABASE VIA A CALL TO THE API
+            },
+          }}
+        ></Marker>
       ))}
     </MapContainer>
   );
