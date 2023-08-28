@@ -1,11 +1,9 @@
-# software
-This repository is concerned with the front-end and back-end development, and database.
-
 # Setup
 1. cd into server directory
 2. run node server.js - this starts the server
 3. cd into client directory 
 4. run npm start - this starts the client
+Note: On first run, must also run "npm install" command in BOTH the client directory and the server directory before running the commands above.
 
 # Information About Software Project 
 1. **Introduction:**
@@ -18,7 +16,7 @@ The web application is a website made for customers' use, which are governments 
 - It must have infrastructure to be able to interface with a mobile application, because a separate but linked mobile application will be developed after the website is built.
 
 2. **Project Requirements and Goals:**
-Functional
+  Functional
 - The website must be deployed and hosted on the internet
 - User Authentication
 - User Account Management
@@ -29,7 +27,7 @@ Functional
 - User Interface Language Changes
 
 
-Non-Functional
+  Non-Functional
 - Cyber Security - HTTPS and prevents common security threats
 - Scalability - architecture accommodates for potential growth in users and data volume
 - Performance - reasonable response times
