@@ -38,6 +38,29 @@ app.get("/api/markers", (req, res) => {
   res.json(markers);
 });
 
+
+// Define route for heatmap
+app.get("/api/heatmap/markers", (req, res) => {
+  console.log("Getting heatmap marker positions ");
+  // markers
+  var markers = [
+    {
+      lat: [-27.470125],
+      long: [153.021072],
+    },
+    {
+      lat: [-27.480125],
+      long: [153.031072],
+    },
+    {
+      lat: [-27.490125],
+      long: [153.041072],
+    },
+  ];
+
+  res.json(markers);
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

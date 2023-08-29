@@ -1,10 +1,18 @@
-.map-core{
-    height: 50%;
-    width: 50%;
+.map-core {
+  height: 50%;
+  width: 50%;
 }
 
-.leaflet-container{
-
-    height: 75vh;
-    
+.leaflet-container {
+  height: 75vh;
 }
+
+#map {
+  height: 100vh;
+}
+
+.leaflet-heatmap-layer {
+  opacity: 0.5;
+}
+
+

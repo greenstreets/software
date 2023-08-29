@@ -31,7 +31,7 @@ const Navbar = () => {
                   </div>
                   <ul className={`menu ${isMenuOpen ? "open" : ""}`}>
                     <li className={isMenuOpen ? "active-top" : ""}>
-                      <a href="#">Home</a>
+                      <a href="/">Home</a>
                     </li>
                     <li className={isMenuOpen ? "active" : ""}>
                       <a href="/about-us">About</a>
