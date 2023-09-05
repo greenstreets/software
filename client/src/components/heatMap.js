@@ -4,49 +4,37 @@ import L from "leaflet";
 import "leaflet.heat";
 import { addressPoints } from "./addresspoints.js";
 
-
-
 export default function HeatMap() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // State to store the fetched data
+  const [data, setData] = useState(null);
 
-  const fetchData = useCallback(async () => {
-    try {
-      const response = await fetch("http://localhost:8000/api/markers"); // Replace with your API endpoint
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-      setData(result);
-      //data = setData;
-    
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setLoading(false);
-    }
-  }, []);
   useEffect(() => {
-    // Call the fetchData function when the component mounts
-    fetchData();
-  }, [fetchData]);
-  
-  useEffect(() => {
-    var map = L.map("map").setView([-27.4944, 153.0118], 12);
+    const map = L.map("map").setView([-27.4679, 153.0281], 13);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19,
     }).addTo(map);
-    
-    const points = data
-      ? data.map((p) => {
-          return [p.Latitude, p.Longitude];
-        })
-      : [];
 
-    L.heatLayer(points).addTo(map);
+    // Heatmap layer
+    const heatmapLayer = L.heatLayer([], { radius: 25 }).addTo(map);
+
+    fetch("http://localhost:8000/api/heatmap")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((result) => {
+        // Update the state with the fetched data
+        const heatmapData = result; // Replace this with the data structure you receive
+        heatmapLayer.setLatLngs(heatmapData); // Set heatmap data
+        setData(result);
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+      });
   }, []);
 
-  return <div id="map" style={{ height: "100vh" }}></div>;
+  return <div id="map" style={{ height: "500px" }}></div>;
 }

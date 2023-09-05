@@ -9,7 +9,7 @@ const mysql = require("mysql");
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "GreenBottle()24#",
+  password: "YOUR PASSWORD HERE",
   database: "greenstreets",
 });
 
@@ -36,6 +36,24 @@ app.get("/api/markers", (req, res) => {
 
     // console.log(results);
     return res.json(results);
+  });
+});
+
+// Define markers route
+app.get("/api/heatmap", (req, res) => {
+  console.log("Getting marker positions ");
+  db.query("SELECT * FROM trash", (err, results) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    var newArr = [];
+    for (let i = 0; i < results.length; i++) {
+      var latLangPair = [];
+      latLangPair.push(results[i].Latitude, results[i].Longitude);
+      newArr.push(latLangPair);
+    }
+    return res.json(newArr);
   });
 });
 
