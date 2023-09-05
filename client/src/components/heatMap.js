@@ -1,27 +1,40 @@
-import React, { useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import "leaflet.heat";
 import { addressPoints } from "./addresspoints.js";
 
-
 export default function HeatMap() {
+  // State to store the fetched data
+  const [data, setData] = useState(null);
+
   useEffect(() => {
-    var map = L.map("map").setView([-37.87, 175.475], 12);
+    const map = L.map("map").setView([-27.4679, 153.0281], 13);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19,
     }).addTo(map);
 
-    const points = addressPoints
-      ? addressPoints.map((p) => {
-          return [p[0], p[1]];
-        })
-      : [];
+    // Heatmap layer
+    const heatmapLayer = L.heatLayer([], { radius: 25 }).addTo(map);
 
-    L.heatLayer(points).addTo(map);
+    fetch("http://localhost:8000/api/heatmap")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((result) => {
+        // Update the state with the fetched data
+        const heatmapData = result; // Replace this with the data structure you receive
+        heatmapLayer.setLatLngs(heatmapData); // Set heatmap data
+        setData(result);
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+      });
   }, []);
 
-  return <div id="map" style={{ height: "100vh" }}></div>;
+  return <div id="map" style={{ height: "500px" }}></div>;
 }

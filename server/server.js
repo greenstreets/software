@@ -2,8 +2,17 @@ const express = require("express");
 const app = express();
 const cors = require("cors"); // Import the cors middleware
 const port = 8000; // You can change this to any available port you prefer
-
 app.use(cors()); // Use the cors middleware
+//////////////////////////DATABASE CONNECTION/////////////////////////////////////
+//mysql port 3306 || X protocol port 33060
+const mysql = require("mysql");
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "YOUR PASSWORD HERE",
+  database: "greenstreets",
+});
+
 // Define a simple route
 app.get("/", (req, res) => {
   console.log("hello");
@@ -19,47 +28,36 @@ app.get("/about", (req, res) => {
 // Define markers route
 app.get("/api/markers", (req, res) => {
   console.log("Getting marker positions ");
-  // markers
-  var markers = [
-    {
-      geocode: [-27.470125, 153.021072],
-      popUp: "Hello, I am pop up 1",
-    },
-    {
-      geocode: [-27.480125, 153.031072],
-      popUp: "Hello, I am pop up 2",
-    },
-    {
-      geocode: [-27.490125, 153.041072],
-      popUp: "Hello, I am pop up 3",
-    },
-  ];
+  db.query("SELECT * FROM trash", (err, results) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
 
-  res.json(markers);
+    // console.log(results);
+    return res.json(results);
+  });
 });
 
-
-// Define route for heatmap
-app.get("/api/heatmap/markers", (req, res) => {
-  console.log("Getting heatmap marker positions ");
-  // markers
-  var markers = [
-    {
-      lat: [-27.470125],
-      long: [153.021072],
-    },
-    {
-      lat: [-27.480125],
-      long: [153.031072],
-    },
-    {
-      lat: [-27.490125],
-      long: [153.041072],
-    },
-  ];
-
-  res.json(markers);
+// Define markers route
+app.get("/api/heatmap", (req, res) => {
+  console.log("Getting marker positions ");
+  db.query("SELECT * FROM trash", (err, results) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    var newArr = [];
+    for (let i = 0; i < results.length; i++) {
+      var latLangPair = [];
+      latLangPair.push(results[i].Latitude, results[i].Longitude);
+      newArr.push(latLangPair);
+    }
+    return res.json(newArr);
+  });
 });
+
+app.get("/get_data", (req, res) => {});
 
 // Start the server
 app.listen(port, () => {
