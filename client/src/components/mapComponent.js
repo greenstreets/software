@@ -4,7 +4,7 @@ import { Icon } from "leaflet";
 import { useState, useEffect, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
 import { addressPoints } from "./addresspoints.js";
-
+import axios from "axios";
 //create custom icon
 const customIcon = new Icon({
   // iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
@@ -35,6 +35,27 @@ const LeafletMap = () => {
     fetchData();
   }, [fetchData]);
 
+  //TO IMPLEMENT - SEARCHING BY TRASH ID
+  const handleMarkerClick = (marker) => {
+    console.log(marker);
+    // Send marker information to the Node.js backend using a fetch or Axios request
+    fetch("http://localhost:8000/api/delete/markers", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: marker.TrashId,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response from the backend if needed
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error sending data to the backend:", error);
+      });
+  };
+
   const position = [-27.4679, 153.0281]; // Latitude and longitude
   return (
     <div>
@@ -52,10 +73,36 @@ const LeafletMap = () => {
               position={[marker.Latitude, marker.Longitude]}
               icon={customIcon}
               eventHandlers={{
-                click: (e) => {
-                  const clickedMarkerToRemove = e.target;
+                click: (marker) => {
+                  console.log(marker);
+                  const clickedMarkerToRemove = marker.target;
+                  console.log(clickedMarkerToRemove);
                   clickedMarkerToRemove.removeFrom(clickedMarkerToRemove._map);
-                  //TO DO REMOVE THE DATA FROM THE DATABASE VIA A CALL TO THE API
+                  // console.log(marker.latlng.lat);
+                  const markerDataToSend = {
+                    id: marker.latlng.lat,
+                    lat: marker.latlng.lng,
+                    // Add more properties as needed
+                  };
+                  // Send marker information to the Node.js backend using a fetch or Axios request
+                  fetch("http://localhost:8000/api/delete/markers", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(markerDataToSend),
+                  })
+                    .then((response) => response.json())
+                    .then((data) => {
+                      // Handle the response from the backend if needed
+                      console.log(data);
+                    })
+                    .catch((error) => {
+                      console.error(
+                        "Error sending data to the backend:",
+                        error
+                      );
+                    });
                 },
               }}
             ></Marker>
