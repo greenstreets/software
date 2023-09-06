@@ -80,8 +80,8 @@ const LeafletMap = () => {
                   clickedMarkerToRemove.removeFrom(clickedMarkerToRemove._map);
                   // console.log(marker.latlng.lat);
                   const markerDataToSend = {
-                    id: marker.latlng.lat,
-                    lat: marker.latlng.lng,
+                    lat: marker.latlng.lat,
+                    long: marker.latlng.lng,
                     // Add more properties as needed
                   };
                   // Send marker information to the Node.js backend using a fetch or Axios request
