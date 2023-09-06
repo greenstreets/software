@@ -12,7 +12,7 @@ const mysql = require("mysql2");
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "GreenBottle()24#",
+  password: "Your PASSWORD HERE",
   database: "greenstreets",
 });
 //////////////////////////DATABASE CONNECTION/////////////////////////////////////
