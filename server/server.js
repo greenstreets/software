@@ -12,7 +12,7 @@ const mysql = require("mysql2");
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "Your PASSWORD HERE",
+  password: "Your Password Here",
   database: "greenstreets",
 });
 //////////////////////////DATABASE CONNECTION/////////////////////////////////////
@@ -68,13 +68,14 @@ app.post("/api/delete/markers", (req, res) => {
     // Execute a raw SQL DELETE query
     db.query(
       "DELETE FROM trash WHERE Latitude = ? AND Longitude = ?",
-      [markerData.id, markerData.lat],
+      [markerData.lat, markerData.long],
       (err, results) => {
         if (err) {
           console.error("Error deleting data:", err);
           res.status(500).json({ error: "Internal server error" });
           return;
         }
+        console.log("Data deleted successfully")
         res.json({ message: "Data deleted successfully" });
       }
     );
