@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import About from "./pages/about.js";
 import Map from "./pages/map.js";
 import NoPage from "./pages/noPage.js";
+import Login from "./pages/login.js";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -18,6 +19,7 @@ root.render(
           <Route exact path="/" element={<Home />}></Route>
           <Route exact path="/about-us" element={<About />}></Route>
           <Route exact path="/map" element={<Map />}></Route>
+          <Route exact path="/login" element={<Login />}></Route>
           <Route exact path="*" element={<NoPage />}></Route>
         </Routes>
       </div>
