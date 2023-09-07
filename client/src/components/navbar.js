@@ -34,6 +34,9 @@ const Navbar = () => {
                   </div>
                   <ul className={`menu ${isMenuOpen ? "open" : ""}`}>
                     <li className={isMenuOpen ? "active-top" : ""}>
+                      <a href="/">Login</a>
+                    </li>
+                    <li className={isMenuOpen ? "active" : ""}>
                       <a href="/">Home</a>
                     </li>
                     <li className={isMenuOpen ? "active" : ""}>
