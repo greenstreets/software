@@ -22,6 +22,9 @@ const Navbar = () => {
           <table>
             <tbody>
               <tr>
+              <td className="logo-cell">
+                  <img src={logo} alt="Logo" />
+                </td>
                 <td className="nav-buttons">
                   <div
                     className={`menu-toggle ${isMenuOpen ? "open" : ""}`}
@@ -40,9 +43,6 @@ const Navbar = () => {
                       <a href="/map">Map</a>
                     </li>
                   </ul>
-                </td>
-                <td className="logo-cell">
-                  <img src={logo} alt="Logo" />
                 </td>
               </tr>
             </tbody>
