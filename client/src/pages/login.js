@@ -1,9 +1,28 @@
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import "../css/login.css";
+import React, { useState } from 'react';
 
 function Login() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value);
+    };
+      
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+    };
+
     console.log("login");
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        console.log(username);
+        console.log(password);
+    }
+
     return (
         <div>
           <Navbar></Navbar>
@@ -11,19 +30,21 @@ function Login() {
                 <header className="App-header">
                     <div className="centre-login">
                         <h2>Login</h2>
-                        <form>
+                        <form onSubmit = {handleSubmit}>
                             <div>
-                                <input placeholder='Username'>
+                               <input id="password" type="text" value={username} onChange={handleUsernameChange} placeholder='Username'>
 
-                                </input>
+                                </input> 
                             </div>
+                            
                             <div>
-                                <input placeholder='Password'>
-                                </input>
+                               <input id="username" type="password" value={password} onChange={handlePasswordChange} placeholder='Password'>
+                            </input> 
                             </div>
-                            <div>
-                            <button>Submit</button> 
-                            </div>
+                            
+                            
+                            <button type='submit'>Submit</button> 
+                    
                         </form>
                     </div>
                 </header>
