@@ -17,6 +17,7 @@ export default function HeatMap() {
 
     // Heatmap layer
     const heatmapLayer = L.heatLayer([], { radius: 25 }).addTo(map);
+    heatmapLayer.setOptions({max:.0001});
 
     fetch("http://localhost:8000/api/heatmap")
       .then((response) => {
