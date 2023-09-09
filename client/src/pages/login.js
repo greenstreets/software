@@ -15,10 +15,40 @@ function Login() {
         setPassword(event.target.value);
     };
 
+    // TODO Move code to backend
+    const validateUser = (user) => {
+        // Allows characters alphanumeric characters as input
+        var userRegex = /^[a-zA-Z0-9]+$/;
+        
+        if (user == null || user.length < 4) {
+            return false
+        }
+
+        var valid = userRegex.test(user);
+                
+        return valid;
+    };
+
+    // TODO Move code to backend
+    const validatePass = (pass) => {
+        // Allows characters alphanumeric characters as input
+        var passRegex = /^[\u0021-\u007E]+$/;
+        
+        if (pass == null || pass.length < 6) {
+            return false
+        }
+
+        var valid = passRegex.test(pass);
+                
+        return valid;
+    };
+
     console.log("login");
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        console.log(validateUser(username))
+        console.log(validatePass(password))
         console.log(username);
         console.log(password);
     }
