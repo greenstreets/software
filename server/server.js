@@ -6,6 +6,10 @@ app.use(cors()); // Use the cors middleware
 const bodyParser = require("body-parser");
 app.use(bodyParser.json()); // Parse JSON requests
 
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+app.use(express.json());
+require("dotenv").config();
 //////////////////////////DATABASE CONNECTION/////////////////////////////////////
 //mysql port 3306 || X protocol port 33060
 const mysql = require("mysql2");
@@ -75,7 +79,7 @@ app.post("/api/delete/markers", (req, res) => {
           res.status(500).json({ error: "Internal server error" });
           return;
         }
-        console.log("Data deleted successfully")
+        console.log("Data deleted successfully");
         res.json({ message: "Data deleted successfully" });
       }
     );
@@ -85,8 +89,83 @@ app.post("/api/delete/markers", (req, res) => {
   }
 });
 
-app.get("/get_data", (req, res) => {});
+//Login authentication
+app.get("/get_data", (req, res) => {
+  res.json(users);
+});
 
+const users = [
+  {
+    username: "user2",
+    password: "$2b$10$vhFiqLDlWYvOlSbik9F9cO6XPlX080MOGGTorxX1xoxAHTjHOyTG6",
+  },
+  {
+    username: "user1",
+    password: "$2b$10$vhFiqLDlWYvOlSbik9F9cO6XPlX080MOGGTorxX1xoxAHTjHOyTG6",
+  },
+];
+app.get("/users", authenticateToken, (req, res) => {
+  res.json(users.filter((post) => post.username === req.user.name));
+});
+
+app.post("/users", async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = { name: req.body.username, password: hashedPassword };
+    users.push(user);
+    res.status(201).send();
+  } catch {
+    res.status(500).send();
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  console.log(username);
+  console.log(password);
+  const authenticate = await authenticateUser(username, password);
+  console.log("asdasda");
+  if (authenticate == 0) {
+    return res
+      .status(400)
+      .json({ message: "Email or password does not match" });
+  }
+  if (authenticate == 1) {
+    console.log("pass");
+    const user = { name: username };
+    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+    res.json({ accessToken: accessToken });
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Email or password does not match" });
+  }
+});
+
+async function authenticateUser(username, password) {
+  const user = users.find((user) => user.username === username);
+  if (user == null) {
+    return 0;
+  }
+  if (await bcrypt.compare(password, user.password)) {
+    return 1;
+  } else {
+    return 2;
+  }
+}
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
