@@ -1,3 +1,6 @@
+# Summary
+This project is a largely unfinished version of the refactor of the MVP of greenstreets. It is currently a simple web app with solid structuring of JS components, such as navbar and map. Read further for more explanation of it's goals.
+
 # Setup
 REQUIREMENT: install express.js
 
