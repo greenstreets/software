@@ -1,4 +1,6 @@
 # Setup
+REQUIREMENT: install express.js
+
 1. cd into server directory
 2. run node server.js - this starts the server
 3. cd into client directory 
